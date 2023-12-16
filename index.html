@@ -3,91 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botleigh Grange Hotel</title>
+    <title>Room Information</title>
     <style>
         body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
-            background: url('https://bridebook.imgix.net/weddingsuppliers/venue/EE001795/saw_botleigh_venue_6_6_15_05_muamm5.jpg?dpr=1&auto=format%2Ccompress%2Cenhance&fm=pjpg&crop=faces&fit=crop&w=820&h=540') no-repeat center center fixed;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/4/40/Living_Room.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: Arial, sans-serif;
             color: #8B4513; /* Brown/Gold color */
         }
 
-        #navbar {
-            overflow: hidden;
-            background-color: #8B4513; /* Brown/Gold color */
-        }
-
-        #navbar a {
-            float: left;
-            display: block;
-            color: white;
+        #searchForm {
             text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Light white background */
+            padding: 20px;
+            border-radius: 10px;
         }
 
-        #navbar a:hover, .dropdown:hover .dropbtn {
-            background-color: #996515; /* Darker Brown/Gold color on hover */
+        #roomTypeInput, #roomUrlInput {
+            width: 80%;
+            margin-top: 10px;
         }
 
-        .dropdown {
-            float: left;
-            overflow: hidden;
-        }
-
-        .dropdown .dropbtn {
-            font-size: 16px;
-            border: none;
-            outline: none;
-            color: white;
-            padding: 14px 16px;
-            background-color: inherit;
-            font-family: inherit;
-            margin: 0;
-        }
-
-        .dropdown-content {
+        #roomTable {
             display: none;
-            position: absolute;
-            background-color: #8B4513; /* Brown/Gold color */
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            z-index: 1;
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.8); /* Light white background */
+            border-radius: 10px;
         }
 
-        .dropdown-content a {
-            float: none;
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+        th, td {
+            border: 1px solid #8B4513; /* Brown/Gold color */
+            padding: 10px;
             text-align: left;
         }
 
-        .dropdown-content a:hover {
-            background-color: #996515; /* Darker Brown/Gold color on hover */
+        th {
+            background-color: #8B4513; /* Brown/Gold color */
+            color: white;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        #welcome-message {
-            text-align: center;
-            padding: 100px;
-            font-size: 36px; /* Increased font size */
-            font-weight: bold;
-            color: #fff; /* White color */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added text shadow */
+        #roomImage {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 10px;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
 
-<div id="navbar">
-    <a href="#home">Home</a>
-    <div class="dropdown">
-        <button class="dropbtn">Restaurant</button>
-        <div class="dropdown-content">
-            <a href="#res
+<form id="searchForm">
+    <label for="roomNumberInput">Room Number:</label>
+    <input type="text" id="roomNumberInput" oninput="searchRoom()" style="width: 80%;">
+    <br>
+    <label for="roomTypeInput">Room Type:</label>
+    <input type="text" id="roomTypeInput" disabled>
+    <br>
+    <a id="roomUrlInput" href="#" target="_blank" style="width: 80%; display: inline-block;"><img src="https://img.icons8.com/material-outlined/24/000000/camera--v1.png" style="margin-bottom: -4px;"> View the Room</a>
+    <div id="roomImageContainer">
+        <img id="roomImage" src="" alt="Room Image">
+    </div>
+</form>
+
+<!-- Replace the following table data with your actual data -->
+<table id="roomTable">
+    <tr>
+        <th>Room Number</th>
+        <th>Room Type</th>
+        <th>View Room</th>
+    </tr>
+    <tr>
+        <td>46</td>
+        <td>Executive Single</td>
+        <td id="room46"><a href="#" target="_blank">&#128247; View the Room</a></td>
+    </tr>
+    <tr>
+        <td>47</td>
+        <td>Executive Single</td>
+        <td id="room47"><a href="#" target="_blank">&#128247; View the Room</a></td>
+    </tr>
+    <!-- Add more rows as needed -->
+</table>
+
+<script>
+    function searchRoom() {
+        var roomNumberInput = document.getElementById('roomNumberInput').value;
+        var roomTypeInput = document.getElementById('roomTypeInput');
+        var roomUrlInput = document.getElementById('roomUrlInput');
+        var roomImageContainer = document.getElementById('roomImageContainer');
+        var roomImage = document.getElementById('roomImage');
+        var urlElement = document.getElementById('room' + roomNumberInput);
+
+        if (urlElement) {
+            // Room found, update inputs
+            roomTypeInput.value = urlElement.previousElementSibling.textContent;
+            roomUrlInput.href = urlElement.querySelector('a').href;
+            roomUrlInput.innerHTML = '<img src="https://img.icons8.com/material-outlined/24/000000/camera--v1.png" style="margin-bottom: -4px;"> View the Room';
+            
+            // Display room image
+            var imageUrl = ""; // Set the actual image URL corresponding to the room type
+            roomImage.src = imageUrl;
+            roomImageContainer.style.display = "block";
+        } else {
+            // Room not found, reset inputs
+            roomTypeInput.value = '';
+            roomUrlInput.href = '#';
+            roomUrlInput.innerHTML = '<img src="https://img.icons8.com/material-outlined/24/000000/camera--v1.png" style="margin-bottom: -4px;"> View the Room (not found)';
+            roomImageContainer.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
